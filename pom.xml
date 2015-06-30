@@ -220,6 +220,7 @@
             </mapping>
             <mapping>
               <directory>/usr/bin</directory>
+              <directoryIncluded>false</directoryIncluded>
               <sources>
                 <source>
                   <location>bin/airpal</location>

@@ -207,6 +207,7 @@ task writePom << {
                             }
                             appendNode('mapping').with {
                                 appendNode('directory','/usr/bin')
+                                appendNode('directoryIncluded', 'false')
                                 appendNode('sources').with {
                                     appendNode('source').with {
                                         appendNode('location', 'bin/airpal')
