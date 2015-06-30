@@ -198,6 +198,23 @@ task writePom << {
                             appendNode('mapping').with {
                                 appendNode('directory','/usr/local/airpal')
                                 appendNode('artifact')
+                                appendNode('sources').with {
+                                    appendNode('softlinkSource').with {
+                                        appendNode('destination', '${project.artifactId}.jar')
+                                        appendNode('location', '${project.artifactId}-${project.version}.jar')
+                                    }
+                                    appendNode('source').with {
+                                        appendNode('location', 'reference.yml')
+                                    }
+                                }
+                            }
+                            appendNode('mapping').with {
+                                appendNode('directory','/usr/bin')
+                                appendNode('sources').with {
+                                    appendNode('source').with {
+                                        appendNode('location', 'bin/airpal')
+                                    }
+                                }
                             }
                         }
                     }

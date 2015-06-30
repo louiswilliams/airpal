@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+# Wrapper for Airpal Server
+
+AIRPAL_HOME=/usr/share/airpal
+LOGFILE=$AIRPAL_HOME/server.log
+PIDFILE=$AIRPAL_HOME/server.pid
+
+case "$1" in
+	start)
+		java -server -Duser.timezone=UTC -cp $AIRPAL_HOME/airpal.jar com.airbnb.airpal.AirpalApplication server $AIRPAL_HOME/reference.yml 2>&1 >> $LOGFILE &
+		echo $! > $PIDFILE
+		echo "Start [OK]"
+		$0 status
+		;;
+	stop)
+		kill `cat $PIDFILE`
+		rm -f $PIDFILE
+		echo "Stop [OK]"
+		;;
+	restart|reload)
+		$0 stop
+		$0 start
+		;;
+	status)
+		if [ -f $PIDFILE ]; then
+			echo "Airpal Server Running on PID: `cat $PIDFILE`, logfile: $LOGFILE"
+		else
+			echo "Airpal Server not running"
+		fi
+		;;
+	*)
+		echo "Usage: $0 start|stop|status|restart|reload"
+		exit 1
+esac
+exit 0

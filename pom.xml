@@ -211,6 +211,23 @@
             <mapping>
               <directory>/usr/local/airpal</directory>
               <artifact/>
+              <sources>
+                <softlinkSource>
+                  <destination>${project.artifactId}.jar</destination>
+                  <location>${project.artifactId}-${project.version}.jar</location>
+                </softlinkSource>
+                <source>
+                  <location>reference.yml</location>
+                </source>
+              </sources>
+            </mapping>
+            <mapping>
+              <directory>/usr/bin</directory>
+              <sources>
+                <source>
+                  <location>bin/airpal</location>
+                </source>
+              </sources>
             </mapping>
           </mappings>
         </configuration>
