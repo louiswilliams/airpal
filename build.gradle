@@ -203,9 +203,6 @@ task writePom << {
                                         appendNode('destination', '${project.artifactId}.jar')
                                         appendNode('location', '${project.artifactId}-${project.version}.jar')
                                     }
-                                    appendNode('source').with {
-                                        appendNode('location', 'reference.yml')
-                                    }
                                 }
                             }
                             appendNode('mapping').with {

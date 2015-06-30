@@ -216,9 +216,6 @@
                   <destination>${project.artifactId}.jar</destination>
                   <location>${project.artifactId}-${project.version}.jar</location>
                 </softlinkSource>
-                <source>
-                  <location>reference.yml</location>
-                </source>
               </sources>
             </mapping>
             <mapping>
