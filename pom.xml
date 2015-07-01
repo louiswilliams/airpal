@@ -209,7 +209,7 @@
           <name>airpal</name>
           <mappings>
             <mapping>
-              <directory>/usr/local/airpal</directory>
+              <directory>/usr/lib/airpal</directory>
               <artifact/>
               <sources>
                 <softlinkSource>

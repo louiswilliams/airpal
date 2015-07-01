@@ -196,7 +196,7 @@ task writePom << {
                         appendNode('name', 'airpal')
                         appendNode('mappings').with {
                             appendNode('mapping').with {
-                                appendNode('directory','/usr/local/airpal')
+                                appendNode('directory','/usr/lib/airpal')
                                 appendNode('artifact')
                                 appendNode('sources').with {
                                     appendNode('softlinkSource').with {
