@@ -4,7 +4,7 @@ plugins {
     id 'com.moowork.node' version '0.8'
     id 'com.github.johnrengelman.shadow' version '1.2.0'
     id 'nebula.os-package' version '2.2.6'
-    id 'com.bazaarvoice.s3repo' version '1.0.1'
+    id 'com.bazaarvoice.s3repo' version '1.0.2'
 }
 
 ext {
