@@ -1,15 +1,10 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-}
 
 plugins {
     id 'pl.allegro.tech.build.axion-release' version '0.9.9'
     id 'com.moowork.node' version '0.8'
     id 'com.github.johnrengelman.shadow' version '1.2.0'
     id 'nebula.os-package' version '2.2.6'
+    id 'com.bazaarvoice.s3repo' version '1.0.1'
 }
 
 ext {
@@ -25,6 +20,7 @@ apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'com.moowork.node'
 apply plugin: 'os-package-base'
 apply plugin: 'maven'
+apply plugin: 'com.bazaarvoice.s3repo'
 
 
 group = 'com.airbnb.airpal'
@@ -41,6 +37,7 @@ repositories {
 }
 
 project.version = scmVersion.version
+
 
 configurations {
     provided
@@ -129,20 +126,22 @@ shadowJar {
 }
 
 ospackage {
-    packageName = 'airpal'
-    release = 1
-    version = "0.1"
+    packageName = description
     os = LINUX
-    into '/usr/local/airpal'
+    version = '0.1.0.4'
+
+    into '/'
 
     from (shadowJar.outputs.files) {
-        into 'lib'
+        into 'usr/lib'
     }
 }
+
 
 task writePom << {
     pom {
         project {
+
             version '0.1.0.1'
             scm {
                 connection 'scm:git:git@github.com:louiswilliams/airpal.git'
@@ -197,7 +196,6 @@ task writePom << {
                         appendNode('mappings').with {
                             appendNode('mapping').with {
                                 appendNode('directory','/usr/lib/airpal')
-                                appendNode('artifact')
                                 appendNode('sources').with {
                                     appendNode('softlinkSource').with {
                                         appendNode('destination', '${project.artifactId}.jar')
@@ -208,6 +206,7 @@ task writePom << {
                             appendNode('mapping').with {
                                 appendNode('directory','/usr/bin')
                                 appendNode('directoryIncluded', 'false')
+                                appendNode('filemode', '755')
                                 appendNode('sources').with {
                                     appendNode('source').with {
                                         appendNode('location', 'bin/airpal')
@@ -222,9 +221,42 @@ task writePom << {
                     }
                 }
                 appendNode('plugin').with {
-                    appendNode('groupId', 'org.apache.maven.plugins')
-                    appendNode('artifactId', 'maven-release-plugin')
-                    appendNode('version', '2.5.2')
+                    appendNode('groupId', 'org.fortasoft')
+                    appendNode('artifactId', 'gradle-maven-plugin')
+                    appendNode('version', '1.0.5')
+                    appendNode('executions').with {
+                        appendNode('execution').with {
+                            appendNode('phase', 'compile')
+                            appendNode('goals').with {
+                                appendNode('goal', 'invoke')
+                            }
+                        }
+                    }
+                    appendNode('configuration').with {
+                        appendNode('tasks').with {
+                            appendNode('task', 'clean')
+                            appendNode('task', 'shadowJar')
+                        }
+                        appendNode('gradleVersion', gradle.gradleVersion)
+                    }
+                }
+                appendNode('plugin').with {
+                    appendNode('groupId', 'com.coderplus.maven.plugins')
+                    appendNode('artifactId', 'copy-rename-maven-plugin')
+                    appendNode('version', '1.0')
+                    appendNode('executions').with {
+                        appendNode('execution').with {
+                            appendNode('id', 'rename-file')
+                            appendNode('phase', 'validate')
+                            appendNode('goals').with {
+                                appendNode('goal', 'rename')
+                            }
+                            appendNode('configuration').with {
+                                appendNode('destinationFile','build/${project.artifactId}-${project.version}.jar')
+                                appendNode('sourceFile', 'build/${project.artifactId}-' + project.version + '-all.jar')
+                            }
+                        }
+                    }
                 }
             }
             appendNode('properties').with {
@@ -232,6 +264,12 @@ task writePom << {
             }
         }
     }.writeTo("pom.xml")
+}
+
+s3repo {
+    s3RepositoryUrl = "s3://nexus-private-artifacts/airpal/yum-repo/"
+    inputs = buildRpm.outputs.files
+    forceDeploy = true
 }
 
 buildAssets.dependsOn installAssets
