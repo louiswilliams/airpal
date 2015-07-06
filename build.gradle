@@ -272,7 +272,7 @@ s3repo {
     forceDeploy = true
 }
 
-s3Repo.dependsOn buildRpm
+updateCreate.dependsOn buildRpm
 buildRpm.dependsOn shadowJar
 buildAssets.dependsOn installAssets
 compileJava.dependsOn buildAssets
