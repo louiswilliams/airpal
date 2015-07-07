@@ -273,8 +273,8 @@ s3repo {
     skipUpdate = false
 }
 
-//updateCreate.dependsOn buildRpm
-// buildRpm.dependsOn shadowJar
+updateCreate.dependsOn buildRpm
+buildRpm.dependsOn shadowJar
 buildAssets.dependsOn installAssets
 compileJava.dependsOn buildAssets
 clean.dependsOn cleanAssets
