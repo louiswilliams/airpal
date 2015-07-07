@@ -1,3 +1,11 @@
+// buildscript {
+//     repositories {
+//         mavenLocal()
+//     }
+//     dependencies {
+//         classpath "com.bazaarvoice.gradle:s3repo-gradle-plugin:1.0.3"
+//     }
+// }
 
 plugins {
     id 'pl.allegro.tech.build.axion-release' version '0.9.9'
@@ -269,8 +277,10 @@ task writePom << {
 s3repo {
     s3RepositoryUrl = "s3://nexus-private-artifacts/airpal/yum-repo/"
     inputs = buildRpm.outputs.files
+    allowCreateRepo = true
     forceDeploy = true
-    skipUpdate = false
+    skipUpdate = true
+    skipUpload = true
 }
 
 updateCreate.dependsOn buildRpm
