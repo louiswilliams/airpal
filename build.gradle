@@ -1,18 +1,18 @@
-// buildscript {
-//     repositories {
-//         mavenLocal()
-//     }
-//     dependencies {
-//         classpath "com.bazaarvoice.gradle:s3repo-gradle-plugin:1.0.3"
-//     }
-// }
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+    dependencies {
+        classpath "com.bazaarvoice.gradle:s3repo-gradle-plugin:1.0.3"
+    }
+}
 
 plugins {
     id 'pl.allegro.tech.build.axion-release' version '0.9.9'
     id 'com.moowork.node' version '0.8'
     id 'com.github.johnrengelman.shadow' version '1.2.0'
     id 'nebula.os-package' version '2.2.6'
-    id 'com.bazaarvoice.s3repo' version '1.0.3'
+//    id 'com.bazaarvoice.s3repo' version '1.0.3'
 }
 
 ext {
@@ -280,11 +280,11 @@ s3repo {
     allowCreateRepo = true
     forceDeploy = true
     skipUpdate = false
-    skipUpload = false
+    skipUpload = true
 }
 
-updateCreate.dependsOn buildRpm
-buildRpm.dependsOn shadowJar
+// updateCreate.dependsOn buildRpm
+// buildRpm.dependsOn shadowJar
 buildAssets.dependsOn installAssets
 compileJava.dependsOn buildAssets
 clean.dependsOn cleanAssets
