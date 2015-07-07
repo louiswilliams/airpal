@@ -279,8 +279,8 @@ s3repo {
     inputs = buildRpm.outputs.files
     allowCreateRepo = true
     forceDeploy = true
-    skipUpdate = true
-    skipUpload = true
+    skipUpdate = false
+    skipUpload = false
 }
 
 updateCreate.dependsOn buildRpm
