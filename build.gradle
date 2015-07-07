@@ -4,7 +4,7 @@ plugins {
     id 'com.moowork.node' version '0.8'
     id 'com.github.johnrengelman.shadow' version '1.2.0'
     id 'nebula.os-package' version '2.2.6'
-    id 'com.bazaarvoice.s3repo' version '1.0.2'
+    id 'com.bazaarvoice.s3repo' version '1.0.3'
 }
 
 ext {
@@ -128,7 +128,7 @@ shadowJar {
 ospackage {
     packageName = description
     os = LINUX
-    version = '0.1.0.4'
+    version = '0.1.0.5'
 
     into '/'
 
@@ -270,10 +270,11 @@ s3repo {
     s3RepositoryUrl = "s3://nexus-private-artifacts/airpal/yum-repo/"
     inputs = buildRpm.outputs.files
     forceDeploy = true
+    skipUpdate = false
 }
 
-updateCreate.dependsOn buildRpm
-buildRpm.dependsOn shadowJar
+//updateCreate.dependsOn buildRpm
+// buildRpm.dependsOn shadowJar
 buildAssets.dependsOn installAssets
 compileJava.dependsOn buildAssets
 clean.dependsOn cleanAssets
