@@ -149,6 +149,7 @@ buildRpm {
 s3repo {
     s3RepositoryUrl = "s3://nexus-private-artifacts/airpal/yum-repo/"
     inputs = buildRpm.outputs.files
+    allowCreateRepo = true
     skipUpdate = false
     skipUpload = false
     forceDeploy = false
