@@ -126,23 +126,32 @@ shadowJar {
 }
 
 ospackage {
-    packageName = description
     os = LINUX
     version = '0.1.0.5'
 
-    into '/'
+    into '/usr'
 
     from (shadowJar.outputs.files) {
-        into 'usr/lib'
+        createDirectoryEntry = true
+        into 'lib/airpal'
     }
+
+    from ('bin/airpal') {
+        fileMode = 755
+        into 'bin'
+    }
+}
+
+buildRpm {
+    link ('/usr/lib/airpal/airpal.jar', '/usr/lib/airpal/' + shadowJar.outputs.files.singleFile.name)
 }
 
 s3repo {
     s3RepositoryUrl = "s3://nexus-private-artifacts/airpal/yum-repo/"
     inputs = buildRpm.outputs.files
-    skipUpdate = true
-    skipUpload = true
-    forceDeploy = true
+    skipUpdate = false
+    skipUpload = false
+    forceDeploy = false
 }
 
 publishToS3Repo.dependsOn buildRpm
