@@ -126,7 +126,7 @@ shadowJar {
 
 ospackage {
     os = LINUX
-    version = '0.1.0.5'
+    version = '0.1.0.6'
 
     into '/usr'
 
@@ -136,7 +136,7 @@ ospackage {
     }
 
     from ('bin/airpal') {
-        fileMode = 755
+        fileMode = 0755
         into 'bin'
     }
 }
@@ -149,7 +149,6 @@ s3repo {
     s3RepositoryUrl = "s3://nexus-private-artifacts/airpal/yum-repo/"
     inputs = buildRpm.outputs.files
     createRepoArgs = "--simple-md-filenames --no-database"
-    allowCreateRepo = true
 }
 
 publishToS3Repo.dependsOn buildRpm
