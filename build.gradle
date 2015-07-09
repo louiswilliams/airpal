@@ -136,6 +136,7 @@ ospackage {
     }
 
     from ('bin/airpal') {
+        user = 'root'
         fileMode = 0755
         into 'bin'
     }
