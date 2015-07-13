@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 import com.google.common.net.MediaType;
-import io.airlift.http.client.AsyncHttpClient;
+import io.airlift.http.client.HttpClient;
 import io.airlift.http.client.FullJsonResponseHandler;
 import io.airlift.http.client.HttpClientConfig;
 import io.airlift.http.client.HttpStatus;
@@ -36,10 +36,10 @@ public class QueryInfoClient
             "/" +
             Objects.firstNonNull(QueryInfoClient.class.getPackage().getImplementationVersion(), "unknown");
 
-    private final AsyncHttpClient httpClient;
+    private final HttpClient httpClient;
     private final FullJsonResponseHandler<BasicQueryInfo> queryInfoHandler;
 
-    public QueryInfoClient(AsyncHttpClient httpClient, JsonCodec<BasicQueryInfo> queryInfoCodec)
+    public QueryInfoClient(HttpClient httpClient, JsonCodec<BasicQueryInfo> queryInfoCodec)
     {
         this.httpClient = httpClient;
         this.queryInfoHandler = createFullJsonResponseHandler(queryInfoCodec);
@@ -75,7 +75,7 @@ public class QueryInfoClient
 
     public static QueryInfoClient create()
     {
-        AsyncHttpClient httpClient = new OldJettyHttpClient(
+        HttpClient httpClient = new OldJettyHttpClient(
                 new HttpClientConfig().setConnectTimeout(new Duration(10, TimeUnit.SECONDS)));
 
         return new QueryInfoClient(httpClient, jsonCodec(BasicQueryInfo.class));

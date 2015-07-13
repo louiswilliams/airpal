@@ -51,7 +51,7 @@ import com.google.inject.Scopes;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import io.airlift.configuration.ConfigurationFactory;
-import io.airlift.http.client.AsyncHttpClient;
+import io.airlift.http.client.HttpClient;
 import io.airlift.http.client.HttpClientConfig;
 import io.airlift.units.DataSize;
 import io.airlift.units.Duration;
@@ -132,7 +132,7 @@ public class AirpalModule extends AbstractModule
     @Singleton
     @Named("query-runner-http-client")
     @Provides
-    public AsyncHttpClient provideQueryRunnerHttpClient()
+    public HttpClient provideQueryRunnerHttpClient()
     {
         final HttpClientConfig httpClientConfig = new HttpClientConfig().setConnectTimeout(new Duration(10, TimeUnit.SECONDS));
 
@@ -168,7 +168,7 @@ public class AirpalModule extends AbstractModule
 
     @Provides
     public QueryRunnerFactory provideQueryRunner(ClientSessionFactory sessionFactory,
-            @Named("query-runner-http-client") AsyncHttpClient httpClient)
+            @Named("query-runner-http-client") HttpClient httpClient)
     {
         return new QueryRunnerFactory(sessionFactory, httpClient);
     }

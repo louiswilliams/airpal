@@ -5,7 +5,9 @@ import com.facebook.presto.client.ClientSession;
 import javax.inject.Provider;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class ClientSessionFactory
@@ -18,6 +20,7 @@ public class ClientSessionFactory
     private final Provider<URI> server;
     private final String timeZoneId;
     private final Locale locale;
+    private final Map<String, String> properties;
 
     public ClientSessionFactory(Provider<URI> server, String user, String source, String catalog, String defaultSchema, boolean debug)
     {
@@ -29,6 +32,7 @@ public class ClientSessionFactory
         this.debug = debug;
         this.timeZoneId = TimeZone.getTimeZone("UTC").getID();
         this.locale = Locale.getDefault();
+        this.properties = new HashMap<>();
     }
 
     public ClientSession create(String user, String schema)
@@ -40,6 +44,7 @@ public class ClientSessionFactory
                 schema,
                 timeZoneId,
                 locale,
+                properties,
                 debug);
     }
 
@@ -52,6 +57,7 @@ public class ClientSessionFactory
                 schema,
                 timeZoneId,
                 locale,
+                properties,
                 debug);
     }
 
@@ -64,6 +70,7 @@ public class ClientSessionFactory
                 defaultSchema,
                 timeZoneId,
                 locale,
+                properties,
                 debug);
     }
 }

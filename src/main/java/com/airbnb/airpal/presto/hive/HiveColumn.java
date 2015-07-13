@@ -17,7 +17,7 @@ public class HiveColumn extends Column {
                       @JsonProperty("type") String type,
                       @JsonProperty("isPartition") boolean isPartition,
                       @JsonProperty("isNullable") boolean isNullable) {
-        super(name, type);
+        super(name, type, null);
         this.isPartition = isPartition;
         this.isNullable = isNullable;
     }

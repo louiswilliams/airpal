@@ -7,7 +7,7 @@ plugins {
 }
 
 ext {
-    prestoVersion = "0.77"
+    prestoVersion = "0.87"
     if (System.properties['airpal.prestoVersion'] != null) {
         prestoVersion = System.properties['airpal.prestoVersion']
     }
@@ -149,7 +149,7 @@ shadowJar {
 
 ospackage {
     os = LINUX
-    version = '0.1.0.6'
+    version = '0.1.0.7'
 
     into '/usr'
 

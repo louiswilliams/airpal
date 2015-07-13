@@ -26,7 +26,7 @@ public class HivePartition extends Column
     public HivePartition(@JsonProperty("name") String name,
                          @JsonProperty("type") String type,
                          @JsonProperty("values") List<Object> values) {
-        super(name, type);
+        super(name, type, null);
         this.values = values;
     }
 
